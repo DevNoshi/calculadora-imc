@@ -1,43 +1,90 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Calculadora de IMC</title>
-    <link rel="icon" href="imgs/icon-web.png" type="image/png">
-    <link rel="stylesheet" href="css/style.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Calculadora de IMC</title>
+  <meta name="description" content="Calcule seu IMC, veja a faixa de peso ideal, receba dicas e acompanhe seu histórico." />
+  <link rel="icon" href="imgs/icon-web.png" type="image/png" />
+  <script>try{document.documentElement.dataset.theme=localStorage.getItem("imc-theme")||(matchMedia("(prefers-color-scheme:dark)").matches?"dark":"light")}catch(e){}</script>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700;800&display=swap" />
+  <link rel="stylesheet" href="css/style.css" />
 </head>
-<body class="light-mode">
-    <header>
-        <div class="container header-container">
-            <h1>Calculadora de IMC</h1>
-            <button id="toggleMode" aria-label="Alternar modo claro/escuro">🌙</button>
-        </div>
-    </header>
+<body>
+  <header>
+    <div class="container header-container">
+      <h1>Calculadora de IMC</h1>
+      <button id="toggleMode" aria-label="Alternar modo claro/escuro">🌙</button>
+    </div>
+  </header>
 
-    <main>
-        <div class="container card">
-            <form id="imcForm">
-                <div class="form-group">
-                    <label for="altura">Altura (m)</label>
-                    <input type="number" id="altura" step="0.01" placeholder="Ex: 1.75" required>
-                </div>
-                <div class="form-group">
-                    <label for="peso">Peso (kg)</label>
-                    <input type="number" id="peso" step="0.1" placeholder="Ex: 70" required>
-                </div>
-                <button type="submit" id="calcular">Calcular IMC</button>
-            </form>
-            <div id="resultado" class="resultado"></div>
+  <main class="container layout">
+    <section class="card">
+      <h2>Seus dados</h2>
+      <form id="imcForm" novalidate>
+        <div class="form-group">
+          <label for="altura">Altura (m ou cm)</label>
+          <input type="text" id="altura" inputmode="decimal" placeholder="Ex: 1,75 ou 175" autocomplete="off" required />
         </div>
-    </main>
-
-    <footer>
-        <div class="container">
-            <p>&copy; 2025 Calculadora de IMC. DEV Noshi. Todos os direitos reservados.</p>
+        <div class="form-group">
+          <label for="peso">Peso (kg)</label>
+          <input type="text" id="peso" inputmode="decimal" placeholder="Ex: 70,5" autocomplete="off" required />
         </div>
-    </footer>
+        <p id="erro" class="erro" role="alert"></p>
+        <button type="submit" id="calcular">Calcular IMC</button>
+        <button type="button" id="limpar" class="ghost">Limpar</button>
+      </form>
+    </section>
 
-    <script src="js/script.js"></script>
+    <section class="card" id="resultado" aria-live="polite">
+      <p class="vazio">Informe sua altura e seu peso para ver o resultado, a faixa de peso ideal e dicas personalizadas.</p>
+    </section>
+
+    <section class="card full" id="dicas" hidden></section>
+
+    <section class="card">
+      <div class="head-row">
+        <h2>Histórico</h2>
+        <button id="limparHist" class="link" hidden>Apagar tudo</button>
+      </div>
+      <div id="grafico"></div>
+      <ul id="historico" class="hist"></ul>
+      <p id="histVazio" class="vazio">Seus cálculos ficam salvos apenas neste navegador.</p>
+    </section>
+
+    <section class="card">
+      <h2>Tabela de referência (OMS)</h2>
+      <table id="tabela">
+        <thead><tr><th>IMC</th><th>Classificação</th></tr></thead>
+        <tbody>
+          <tr><td>Menor que 18,5</td><td>Abaixo do peso</td></tr>
+          <tr><td>18,5 a 24,9</td><td>Peso normal</td></tr>
+          <tr><td>25,0 a 29,9</td><td>Sobrepeso</td></tr>
+          <tr><td>30,0 a 34,9</td><td>Obesidade grau I</td></tr>
+          <tr><td>35,0 a 39,9</td><td>Obesidade grau II</td></tr>
+          <tr><td>40,0 ou mais</td><td>Obesidade grau III</td></tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section class="card full">
+      <h2>Bom saber</h2>
+      <details><summary>Como o IMC é calculado?</summary>
+        <p>IMC = peso (kg) ÷ altura² (m). Uma pessoa com 70 kg e 1,75 m tem IMC de 70 ÷ (1,75 × 1,75) ≈ 22,9.</p></details>
+      <details><summary>Quando o IMC pode enganar?</summary>
+        <p>Ele não separa massa muscular de gordura nem mostra onde a gordura está concentrada. Por isso pode superestimar o risco em atletas e subestimar em pessoas com pouca massa muscular. Também não se aplica a crianças, adolescentes, gestantes e, com ressalvas, a idosos.</p></details>
+      <details><summary>O que mais vale acompanhar?</summary>
+        <p>Circunferência da cintura, exames de sangue, pressão arterial, qualidade do sono e hábitos de atividade física completam o quadro.</p></details>
+      <p class="aviso">Esta ferramenta é informativa e não substitui avaliação médica ou nutricional.</p>
+    </section>
+  </main>
+
+  <footer>
+    <div class="container">
+      <p>&copy; 2026 Calculadora de IMC. DEV Noshi. Todos os direitos reservados.</p>
+    </div>
+  </footer>
+
+  <script src="js/script.js"></script>
 </body>
 </html>
